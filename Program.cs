@@ -2,7 +2,7 @@ using DotNet8WebAPI;
 using DotNet8WebAPI.Helpers;
 using DotNet8WebAPI.Model;
 using Azure.Identity;
-using DotNet8WebAPI.Entity;
+
 using DotNet8WebAPI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -21,6 +21,7 @@ var builder = WebApplication.CreateBuilder(args);
 //builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 
 builder.Services.AddSingleton<IOurHeroService, OurHeroService>();
+builder.Services.AddSingleton<IBookService, BookService>();
 //builder.Services.AddSingleton<IOurHeroService, OurHeroService>();
 builder.Services.AddScoped<IUserService, UserService>();
 

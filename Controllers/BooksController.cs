@@ -1,33 +1,32 @@
-﻿using DotNet8WebAPI.Helpers;
-using DotNet8WebAPI.Model;
+﻿using DotNet8WebAPI.Model;
 using DotNet8WebAPI.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DotNet8WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
-    public class OurHeroController : ControllerBase
+   // [Authorize]
+    public class BooksController : Controller
     {
-        private readonly IOurHeroService _heroService;
-        public OurHeroController(IOurHeroService heroService)
+        private readonly IBookService _bookService;
+        public BooksController(IBookService bookService)
         {
-            _heroService = heroService;
+            _bookService = bookService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] bool? isActive = null)
+        public async Task<IActionResult> GetAllBook()
         {
-            var heros = await _heroService.GetAllHeros(isActive);
+            var heros = await _bookService.GetAllBooks();
             return Ok(heros);
         }
 
         [HttpGet("{id}")]
-        //[Route("{id}")] // /api/OurHero/:id
         public async Task<IActionResult> Get(int id)
         {
-            var hero = await _heroService.GetHerosByID(id);
+            var hero = await _bookService.GetBookByID(id);
             if (hero == null)
             {
                 return NotFound();
@@ -36,9 +35,9 @@ namespace DotNet8WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] AddUpdateOurHero heroObject)
+        public async Task<IActionResult> AddBook([FromBody] Book heroObject)
         {
-            var hero = await _heroService.AddOurHero(heroObject);
+            var hero = await _bookService.AddBook(heroObject);
 
             if (hero == null)
             {
@@ -47,16 +46,16 @@ namespace DotNet8WebAPI.Controllers
 
             return Ok(new
             {
-                message = "Super Hero Created Successfully!!!",
+                message = "Book Created Successfully!!!",
                 id = hero!.Id
             });
         }
 
         [HttpPut]
         [Route("{id}")]
-        public async Task<IActionResult> Put([FromRoute] int id, [FromBody] AddUpdateOurHero heroObject)
+        public async Task<IActionResult> Put([FromRoute] int id, [FromBody] Book heroObject)
         {
-            var hero = await _heroService.UpdateOurHero(id, heroObject);
+            var hero = await _bookService.UpdateBook(id, heroObject);
             if (hero == null)
             {
                 return NotFound();
@@ -64,7 +63,7 @@ namespace DotNet8WebAPI.Controllers
 
             return Ok(new
             {
-                message = "Super Hero Updated Successfully!!!",
+                message = "Book Updated Successfully!!!",
                 id = hero!.Id
             });
         }
@@ -73,14 +72,14 @@ namespace DotNet8WebAPI.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            if (!await _heroService.DeleteHerosByID(id))
+            if (!await _bookService.DeleteBookById(id))
             {
                 return NotFound();
             }
 
             return Ok(new
             {
-                message = "Super Hero Deleted Successfully!!!",
+                message = "Book Deleted Successfully!!!",
                 id = id
             });
         }

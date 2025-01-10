@@ -46,8 +46,8 @@ namespace DotNet8WebAPI.Controllers
         {
             var response = await _userService.Authenticate(model);
 
-            if (response == null)
-                return BadRequest(new { message = "Username or password is incorrect" });
+            //if (response == null)
+            //    return BadRequest(new { message = "Username or password is incorrect" });
 
             return Ok(response);
         }

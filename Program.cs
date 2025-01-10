@@ -65,6 +65,15 @@ builder.Services.AddSwaggerGen(swagger =>
                 });
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200") // Allow only this origin
+              .AllowAnyHeader() // Allow any header
+              .AllowAnyMethod(); // Allow any HTTP method
+    });
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -106,6 +115,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 app.UseMiddleware<JwtMiddleware>();
+app.UseCors("AllowAngularApp");
 app.MapControllers();
 
 app.Run();

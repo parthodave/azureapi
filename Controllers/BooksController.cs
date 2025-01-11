@@ -1,4 +1,5 @@
-﻿using DotNet8WebAPI.Model;
+﻿using DotNet8WebAPI.Helpers;
+using DotNet8WebAPI.Model;
 using DotNet8WebAPI.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +8,7 @@ namespace DotNet8WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-   // [Authorize]
+    [Authorize]
     public class BooksController : Controller
     {
         private readonly IBookService _bookService;
